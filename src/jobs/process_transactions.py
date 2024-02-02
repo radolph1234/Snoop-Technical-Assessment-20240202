@@ -4,6 +4,7 @@ import json
 import pandas as pd
 
 import ConfigurationHelpers
+import DataReaders
 
 
 def process():
@@ -18,13 +19,20 @@ def extract(sourced_filepath):
     lake_location = ConfigurationHelpers.get_lake_location()
     path = os.path.join(lake_location, sourced_filepath, 'tech_assessment_transactions.json')
 
-    with open(path, 'r') as f:
-        transactions_dict = json.load(f)
+    transactions_dict = DataReaders.read_json(path)
 
     return pd.DataFrame.from_dict(transactions_dict['transactions'])
 
 
 def transform(transactions_df):
+    # Validate currency
+    # Check for inValid dates
+    # Check for duplicate transactions records
+    transactions_df['rank'] = (
+        transactions_df
+        .groupby(['customerId', 'transactionId'])['sourceDate']
+        .rank(ascending=True)
+    )
     pass
 
 
