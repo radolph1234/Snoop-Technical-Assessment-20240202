@@ -29,7 +29,7 @@ def execute_job(arguments):
         job_module, job_method = arguments.job.rsplit('.', 1)
         mod = import_module(job_module)
         met = getattr(mod, job_method)
-        met()
+        met(arguments)
     except Exception as e:
         raise Exception(f'{str(e)}')
 

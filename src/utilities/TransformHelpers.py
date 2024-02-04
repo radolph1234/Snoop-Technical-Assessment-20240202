@@ -43,6 +43,11 @@ def cast_datetime(df, column, format):
 
     return df
 
+def cast_datetime_str(df, column, format):
+    df[column] = df[column].dt.strftime(format)
+
+    return df
+
 
 def dense_rank_desc(df, groupby_cols, rank_col):
     df['rank'] = (
