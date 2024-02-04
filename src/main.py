@@ -6,6 +6,12 @@ Ensures correct configuration is in place and runs a given job
 import argparse
 import os
 from importlib import import_module
+import warnings
+import pandas as pd
+from pandas.errors import SettingWithCopyWarning
+
+warnings.simplefilter(action='ignore', category=(SettingWithCopyWarning))
+pd.set_option('display.max_columns', None)
 
 
 def add_default_args(argparse_parser):

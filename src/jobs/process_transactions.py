@@ -1,12 +1,11 @@
 import os
 import pandas as pd
 
+# Local imports
 import ConfigurationHelpers
 import DataReaders
 import TransformHelpers
 from Postgres import PGConnect, PGInterface
-
-pd.set_option('display.max_columns', None)
 
 
 def process(run):

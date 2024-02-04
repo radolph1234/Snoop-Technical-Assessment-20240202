@@ -1,6 +1,6 @@
 from datetime import datetime
 import hashlib
-import Pandas as pd
+import pandas as pd
 
 
 def sha2_hash(df: pd.DataFrame,
@@ -146,5 +146,5 @@ def dense_rank_desc(df: pd.DataFrame,
         .groupby(groupby_cols)[rank_col]
         .rank(method='dense', ascending=False)
     )
-    
+
     return df
