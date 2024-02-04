@@ -9,7 +9,8 @@ from importlib import import_module
 
 
 def add_default_args(argparse_parser):
-    '''used in local runs or if values not given
+    '''
+    Used in local runs or if values not given
     '''
 
     default_env = os.environ.get("environment")
@@ -22,7 +23,8 @@ def add_default_args(argparse_parser):
 
 
 def execute_job(arguments):
-    '''executes the job which was given
+    '''
+    Executes the given job
     e.g. calls the .process() function from within a stages .py script
     '''
     try:

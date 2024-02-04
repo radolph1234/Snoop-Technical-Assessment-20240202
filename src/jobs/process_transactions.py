@@ -32,7 +32,7 @@ def transform(trans_df):
     # Create transactions primary key
     trans_df = TransformHelpers.add_unique_hashkey(trans_df, ['customerId', 'transactionId'])
 
-    # obscure PII data
+    # Obscure PII data
     trans_df = TransformHelpers.sha2_hash(trans_df, 'customerName')
 
     # Perform DQ Checks
@@ -72,6 +72,7 @@ def transform(trans_df):
     duplicates = TransformHelpers.add_unique_hashkey(duplicates, ['customerId', 'transactionId', 'rank'])
     duplicates = duplicates.drop(columns=['rank'])
     
+    # Format invalid transactions 
     invalid_trans_df = pd.concat([invalid_trans_df, duplicates])
     invalid_trans_df = invalid_trans_df.drop(columns=['customerName'])
     invalid_trans_df['duplicate'] = invalid_trans_df['duplicate'].fillna(False)
@@ -106,12 +107,15 @@ def transform(trans_df):
 
 
 def load(customer_df, transactions_df, errors_df):
+    # Create PG database connection
+    # TODO: Need to store and retrieve credentials securely
     db_connection = PGConnect(database="Snoop-Tech-Test",
                                host="localhost",
                                user="postgres",
                                password="password",
                                port="5432")
     
+    # Use connection instance above to interact with database
     pg_interface = PGInterface(db_conn=db_connection,
                                table_name='customers',
                                df=customer_df,
@@ -130,4 +134,5 @@ def load(customer_df, transactions_df, errors_df):
                                merge_column='UniqueHashKey')
     pg_interface.merge()
 
+    # Close DB connection
     db_connection.close()
